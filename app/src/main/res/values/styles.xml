@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="CustomEditTextStyle" parent="Widget.AppCompat.EditText">
+        <item name="colorControlNormal">@color/white</item> <!-- Default (inactive) underline color -->
+        <item name="colorControlActivated">@color/blue</item> <!-- Active underline color when focused -->
+        <item name="colorControlHighlight">@color/blue</item> <!-- Active underline color when selected -->
+    </style>
+</resources>

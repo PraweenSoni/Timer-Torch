@@ -1,0 +1,25 @@
+<resources>
+    <string name="app_name">Timer Torch</string>
+    <string name="turn_on">Turn On</string>
+    <string name="turn_off">Turn Off</string>
+    <string name="_5_min">5 Min</string>
+    <string name="_10_min">10 Min</string>
+    <string name="_15_min">15 Min</string>
+    <string name="custom_time_min">Custom Time (min)</string>
+    <string name="set_time">Set Time</string>
+    <string name="blink_on">Blink On</string>
+    <string name="blink_off">Blink Off</string>
+    <string name="blink_on_n">Blink Mode currently not Working</string>
+    <string name="blink_off_n">Blink Mode currently not Working</string>
+    <string name="please_enter_valid_time">Please enter a valid time</string>
+    <string name="no_flashlight">No flashlight available on this device</string>
+    <string name="timer_finished">Timer finished</string>
+    <string name="navtxt">Welcome! To Timer Torch App</string>
+    <string name="footertxt">Created By Pks</string>
+    <string name="send_mail">FeedBack !</string>
+    <string name="set_custom_time">Set Time</string>
+    <string name="cancel_timer">Cancel Timer</string>
+    <string name="timer_canceled">Timer canceled</string>
+
+</resources>
+
