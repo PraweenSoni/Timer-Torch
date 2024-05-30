@@ -17,7 +17,7 @@
   -  Blink Mode
  #### 2. Clone the repo
   ```sh
-  $ 
+  $ https://github.com/PraweenSoni/Timer-Torch-App.git
   ```
 ## How to Contribute
   1. Fork the the project
