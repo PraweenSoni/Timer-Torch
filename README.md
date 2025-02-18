@@ -1,6 +1,7 @@
 # Simple Timer Torch App 🔦 
 > You can set time for flash light the set time period glow Flash Light and auto off when time is over.
-## Show some :heart: and star the repo to support the project.
+## Note : This project is no longer maintained by me. If you have any questions or issues, please post them in the discussion section of this repository or message me on LinkedIn.
+## Show some :heart: and star the repo if you like this project.
 # Screenshots about app --
 <p>
 <img src="https://github.com/PraweenSoni/Timer-Torch-App/assets/106673980/99f9ac13-a6de-4bc0-b60b-1af53df4fb4b" heigth="380" width="180" margin-left="20px">
