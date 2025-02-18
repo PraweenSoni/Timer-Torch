@@ -12,8 +12,8 @@
 <!-- ![TT3](https://github.com/PraweenSoni/Timer-Torch-App/assets/106673980/1ce9cfde-9277-436b-9239-1d19b1c9eb73) -->
 </p>
 
-# Note
-  - This repository is still under development and I will continue to add more features to it.
+ <!--# Note
+  - This repository is still under development and I will continue to add more features to it. -->
 # Upcoming Features
   -  Blink Mode
  #### 2. Clone the repo
