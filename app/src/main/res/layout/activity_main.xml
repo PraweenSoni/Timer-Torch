@@ -82,6 +82,7 @@
         android:hint="@string/custom_time_min"
         android:inputType="number"
         android:minHeight="48dp"
+        android:textColor="#fff"
         style="@style/CustomEditTextStyle"
         android:textColorHint="#FFFFFF" />
 

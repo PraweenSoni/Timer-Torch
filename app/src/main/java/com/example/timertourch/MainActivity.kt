@@ -14,6 +14,7 @@ import android.widget.ToggleButton
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import android.graphics.drawable.GradientDrawable
+import androidx.core.net.toUri
 
 
 class MainActivity : AppCompatActivity() {
@@ -49,13 +50,15 @@ class MainActivity : AppCompatActivity() {
             val email = "ask.psoni@gmail.com"
             val subject = "Feedback! For improvement.. From Timer Torch App."
             val uriText = "mailto:$email?subject=${Uri.encode(subject)}"
-            val emailIntent = Intent(Intent.ACTION_SENDTO, Uri.parse(uriText))
+            val emailIntent = Intent(Intent.ACTION_SENDTO, uriText.toUri())
             startActivity(Intent.createChooser(emailIntent, "Feedback! For improvement.."))
         }
 
         flashlightButton.setOnClickListener {
             if (hasCameraFlash) {
                 if (isFlashlightOn) {
+                    stopBlinking() // Stop blinking if active
+                    cancelTimer() // Stop any active timer
                     turnOffFlashlight()
                 } else {
                     turnOnFlashlight()
@@ -81,17 +84,26 @@ class MainActivity : AppCompatActivity() {
                 cancelTimer()
             }
         }
+
+        blinkToggle.setOnCheckedChangeListener { _, isChecked ->
+            if (isChecked) {
+                startBlinking()
+                blinkToggle.text = getString(R.string.blink_on) // Update UI
+            } else {
+                stopBlinking()
+                blinkToggle.text = getString(R.string.blink_off) // Update UI
+            }
+        }
     }
 
     private fun setTimer(minutes: Int) {
         timer?.cancel()
         timer = object : CountDownTimer((minutes * 60000).toLong(), 1000) {
             override fun onTick(millisUntilFinished: Long) {
-                if (!blinkMode && !isFlashlightOn) {
-                    turnOnFlashlight()
+                if (!blinkMode) {
+                    if (!isFlashlightOn) turnOnFlashlight() // Prevents overriding manual off
                 }
             }
-
             override fun onFinish() {
                 turnOffFlashlight()
                 Toast.makeText(this@MainActivity, getString(R.string.timer_finished), Toast.LENGTH_SHORT).show()
@@ -105,9 +117,8 @@ class MainActivity : AppCompatActivity() {
     private fun cancelTimer() {
         timer?.cancel()
         timer = null
-        if (isFlashlightOn) {
-            turnOffFlashlight()
-        }
+        stopBlinking() // Ensure blinking stops
+        turnOffFlashlight() // Make sure flashlight turns off
         Toast.makeText(this, getString(R.string.timer_canceled), Toast.LENGTH_SHORT).show()
         resetSetCustomTimeButton()
     }
@@ -125,17 +136,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun turnOnFlashlight() {
-        val cameraManager = getSystemService(CAMERA_SERVICE) as CameraManager
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) return
         try {
+            val cameraManager = getSystemService(CAMERA_SERVICE) as CameraManager
             val cameraId = cameraManager.cameraIdList[0]
             cameraManager.setTorchMode(cameraId, true)
             isFlashlightOn = true
             flashlightButton.text = getString(R.string.turn_off)
-//            flashlightButton.setBackgroundColor(ContextCompat.getColor(this, R.color.red))
+
             val shape = GradientDrawable().apply {
                 shape = GradientDrawable.OVAL
                 setColor(ContextCompat.getColor(this@MainActivity, R.color.red))
-                setSize(200, 200) // width and height in pixels
+                setSize(200, 200)
             }
             flashlightButton.background = shape
         } catch (e: CameraAccessException) {
@@ -143,22 +155,53 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+
     private fun turnOffFlashlight() {
-        val cameraManager = getSystemService(CAMERA_SERVICE) as CameraManager
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) return
         try {
+            val cameraManager = getSystemService(CAMERA_SERVICE) as CameraManager
             val cameraId = cameraManager.cameraIdList[0]
             cameraManager.setTorchMode(cameraId, false)
             isFlashlightOn = false
             flashlightButton.text = getString(R.string.turn_on)
-//            flashlightButton.setBackgroundColor(ContextCompat.getColor(this, R.color.green))
+
             val shape = GradientDrawable().apply {
                 shape = GradientDrawable.OVAL
                 setColor(ContextCompat.getColor(this@MainActivity, R.color.green))
-                setSize(200, 200) // width and height in pixels
+                setSize(200, 200)
             }
             flashlightButton.background = shape
         } catch (e: CameraAccessException) {
             e.printStackTrace()
         }
+    }
+
+    // Blink Mode function
+    private val handler = android.os.Handler(android.os.Looper.getMainLooper())
+    private var blinkRunnable: Runnable? = null
+
+    private fun startBlinking() {
+        if (!packageManager.hasSystemFeature(PackageManager.FEATURE_CAMERA_FLASH)) {
+            Toast.makeText(this, getString(R.string.no_flashlight), Toast.LENGTH_SHORT).show()
+            return
+        }
+
+        blinkRunnable = object : Runnable {
+            override fun run() {
+                if (isFlashlightOn) {
+                    turnOffFlashlight()
+                } else {
+                    turnOnFlashlight()
+                }
+                handler.postDelayed(this, 1000) // Blinks every 1 second
+            }
+        }
+        handler.post(blinkRunnable!!)
+    }
+
+    private fun stopBlinking() {
+        blinkRunnable?.let { handler.removeCallbacks(it) }
+        blinkMode = false // Ensure the mode is off
+        turnOffFlashlight() // Force turn off
     }
 }
