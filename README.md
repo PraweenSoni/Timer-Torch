@@ -15,7 +15,7 @@
  <!--# Note
   - This repository is still under development and I will continue to add more features to it. -->
 # Upcoming Features
-  -  Blink Mode
+  -  Blink Mode (Added on Version 2)
  #### 2. Clone the repo
   ```sh
   $ https://github.com/PraweenSoni/Timer-Torch-App.git
