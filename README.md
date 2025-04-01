@@ -14,6 +14,7 @@
 
  <!--# Note
   - This repository is still under development and I will continue to add more features to it. -->
+# <a href="https://github.com/PraweenSoni/Timer-Torch/releases/download/TimerTourchV2/timer.torch.apk" > Download Apk </a>
 # Upcoming Features
   -  Blink Mode (Added on Version 2)
  #### 2. Clone the repo
